@@ -135,6 +135,8 @@ export default class Homepage extends React.Component {
                     <path d="M0,0 C267.713064,44.7822211 445.517867,96.2623965 533.41441,154.440526 C580.983969,185.926496 593.941455,334.110264 629.545205,374.913482 C729.937506,489.966783 1183.0088,154.440526 1733.97071,180.849333 C1858.79759,186.832558 1990.47402,214.174216 2129,262.874308 L2129,1066 L0,1066 L0,0 Z" id="Rectangle-Copy-3" fill="#F2F4FF"></path>
                 </g>
             </svg>
+            <div className='popularDiv'>
+            <h2 className='popularText'>Most Popular Restaurants In Your Area</h2>
             <div className='recommendedBoxes'>
                 {this.state.places.map((place) => {
                     var photoRef = place.photos[0].photo_reference;
@@ -144,16 +146,17 @@ export default class Homepage extends React.Component {
                         <div className='rBox' key={place.name}>
                             <img src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoRef}&key=${process.env.REACT_APP_GOOGLE_API}`} />
                             <h2>{place.name}</h2>
-                            <div class='rating'>
-                                <div class="star-ratings-css">
-                                <div class="star-ratings-css-top" style={{width: rating}}><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-                                <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                            <div className='rating'>
+                                <div className="star-ratings-css">
+                                <div className="star-ratings-css-top" style={{width: rating}}><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                <div className="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
                                 </div>
                                 <p>{place.user_ratings_total}</p>
                             </div>
                         </div>
                     )
                 })}
+            </div>
             </div> 
             </div>
             </div>

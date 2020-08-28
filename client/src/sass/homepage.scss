@@ -158,3 +158,16 @@ html, body {
           font-family: $roboto;
       }
   }
+
+  .popularDiv {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+
+    .popularText {
+        padding-top: 5%;
+        color: #FFA6A6;
+        font-family: $roboto;
+    }
+  }
