@@ -18,7 +18,7 @@ router.post('/', function(req, res, next) {
                     password: hashed
                 })
                 // if user is found then send an error to client, else save the user
-                User.findOne({email: req.body.email}, (err, example) => {
+                User.findOne({username: req.body.email}, (err, example) => {
                     if(err) {console.log(err)};
                     if(example) {
                         res.send(`Email: ${req.body.email} has already been taken, please try another one.`);

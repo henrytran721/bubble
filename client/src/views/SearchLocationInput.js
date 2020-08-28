@@ -54,7 +54,7 @@ function SearchLocationInput() {
       <input
         ref={autoCompleteRef}
         onChange={event => setQuery(event.target.value)}
-        placeholder="Enter a City"
+        placeholder="Near"
         value={query}
       />
     </div>
