@@ -21,4 +21,20 @@ router.post('/', function(req, response, next) {
     res.send('hello');
   })
 
+// homepage search bar
+router.post('/searchQuery', (req, response, next) => {
+  var url = req.body.url;
+  console.log(url);
+  https.get(url, (res) => {
+    var body = '';
+    res.on('data', function(chunk) {
+      body += chunk;
+    })
+    res.on('end', () => {
+      var searchResults = JSON.parse(body);
+      response.send(searchResults.results);
+    })
+  })
+})
+
 module.exports = router;

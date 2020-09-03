@@ -8,7 +8,7 @@ function SearchBar(props) {
         <div className='searchBar'>
             <form className='searchBar' name='searchBar' method='POST'>
                 <div className='ogInputDiv'>
-                <input className='ogInput' type='text' name='searchText' placeholder='Find' />
+                <input className='ogInput' type='text' name='searchText' onChange={props.handleOnChange} placeholder='Find' />
                 </div>
                 <SearchLocationInput />
                 <button onClick={props.submitSearchBar}>
@@ -37,6 +37,7 @@ export default class Homepage extends React.Component {
         super(props);
         this.state = {
             places: [],
+            searchText: '',
         }
     }
 
@@ -54,7 +55,6 @@ export default class Homepage extends React.Component {
                         })
                         .then((data) => {
                             location = data.results[0].address_components[1].long_name + '+' + data.results[0].address_components[3].long_name;
-                            console.log(location);
                         })
                         .then(() => {
                             var restaurantSearch = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=restaurants+in+${location}&key=${process.env.REACT_APP_GOOGLE_API}`;
@@ -79,9 +79,21 @@ export default class Homepage extends React.Component {
         }
     }
 
-    submitSearchBar(e) {
+    submitSearchBar = (e) => {
         e.preventDefault();
-        console.log('button function is working');
+        var location = document.querySelector('.searchLocation').value;
+        var locationAndSearch =  this.state.searchText + ' in ' + location;
+        // format our location and string search
+        location = location.split(', ').join('+');
+        var stringQuery = this.state.searchText.trim().split(' ').join('+');
+        var searchStr = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${stringQuery}+${location}&key=${process.env.REACT_APP_GOOGLE_API}`;
+        if(location && stringQuery) {
+            localStorage.removeItem('homepageSearch');
+            localStorage.removeItem('searchString');
+            localStorage.setItem('homepageSearch', searchStr);
+            localStorage.setItem('searchString', locationAndSearch);
+            window.location = '/searchresults';
+        }
     }
 
     handleLogout = (e) => {
@@ -97,8 +109,14 @@ export default class Homepage extends React.Component {
             })
     }
 
+    handleOnChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+
     render() {
-        console.log(this.state.places);
+        console.log(this.state.searchText);
         return (
             <div>
             <div className='homepageContainer'>
@@ -122,7 +140,10 @@ export default class Homepage extends React.Component {
                     </g>
                     </g>
                 </svg>
-                <SearchBar submitSearchBar={this.submitSearchBar}>
+                <SearchBar 
+                submitSearchBar={this.submitSearchBar}
+                handleOnChange={this.handleOnChange}
+                >
                 <SearchLocationInput />
                 </SearchBar>
                 <div className='bubbleText'><p>Find restaurants in your bubble</p></div>

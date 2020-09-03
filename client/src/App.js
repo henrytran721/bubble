@@ -3,6 +3,7 @@ import './App.css';
 import Homepage from './views/Homepage';
 import Signup from './views/Signup';
 import Login from './views/Login';
+import SearchResults from './views/SearchResults';
 import {
   BrowserRouter as Router,
   Switch,
@@ -31,6 +32,9 @@ class App extends React.Component {
     <div className="App">
     <Router>
       <Switch>
+      <Route path='/searchresults'>
+          <SearchResults />
+        </Route>
         <Route path='/signup'>
           <Signup />
         </Route>

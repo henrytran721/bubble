@@ -52,6 +52,7 @@ function SearchLocationInput() {
   return (
     <div className="search-location-input">
       <input
+        className='searchLocation'
         ref={autoCompleteRef}
         onChange={event => setQuery(event.target.value)}
         placeholder="Near"
