@@ -10,6 +10,8 @@
 .searchResultsBody {
     display: flex;
     justify-content: space-between;
+    position: relative;
+    overflow-x: hidden;
     .searchBox {
         width: 100%;
         height: 300px;
@@ -62,4 +64,11 @@
 
 .closed {
     color: red;
+}
+
+.mapContainer {
+    // position: absolute;
+    // width: 60%;
+    // height: 50%;
+    width: 60%;
 }

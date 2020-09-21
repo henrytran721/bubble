@@ -92,6 +92,7 @@ export default class Homepage extends React.Component {
             localStorage.removeItem('searchString');
             localStorage.setItem('homepageSearch', searchStr);
             localStorage.setItem('searchString', locationAndSearch);
+            localStorage.setItem('location', location);
             window.location = '/searchresults';
         }
     }

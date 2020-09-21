@@ -3,7 +3,7 @@ import axios from 'axios';
 import {MyApiClient} from './my-api-client.js';
 import '../sass/searchResults.scss';
 import SearchLocationInput from './SearchLocationInput';
-
+import MapContainer from './Map';
 function SearchBar(props) {
     return (
         <div className='searchBar'>
@@ -55,7 +55,6 @@ function SearchBox(props) {
                         (() => {
                             if(res.opening_hours) {
                                 if(res.opening_hours.open_now !== undefined) {
-                                    console.log(res.opening_hours.open_now);
                                     if(res.opening_hours.open_now) {
                                         return <p className='open'>Open</p>
                                     } else {
@@ -74,11 +73,6 @@ function SearchBox(props) {
     )
 }
 
-function Map(props) {
-    return (
-        <div>MAP</div>
-    )
-}
 
 export default class SearchResults extends React.Component {
     constructor(props) {
@@ -141,7 +135,11 @@ export default class SearchResults extends React.Component {
                     locationAndSearch={this.state.locationAndSearch}
                     searchResults = {this.state.searchResults}
                     />
-                    <Map/>
+                    <div class='mapContainer'>
+                    <MapContainer
+                    location={this.state.searchResults[0]} 
+                    />
+                    </div>
                 </div>
             </div>
         )
