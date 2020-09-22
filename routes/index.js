@@ -36,18 +36,4 @@ router.post('/searchQuery', (req, response, next) => {
   })
 })
 
-router.post('/location', (req, response, next) => {
-  let url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${req.body.location}&key=AIzaSyCFpl3zs8JMvQksse8wBJoxzJv6DLLkaFU`;
-  https.get(url, (res) => {
-    var body = '';
-    res.on('data', function(chunk) {
-      body += chunk;
-    })
-    res.on('end', () => {
-      var location = JSON.parse(body);
-      response.send(location.results);
-    })
-  })
-})
-
 module.exports = router;
