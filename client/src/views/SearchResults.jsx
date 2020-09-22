@@ -9,10 +9,10 @@ function SearchBar(props) {
         <div className='searchBar'>
         <form className='searchBar' name='searchBar' method='POST'>
             <div className='ogInputDiv'>
-            <input className='ogInput' type='text' name='searchText' placeholder='Find' />
+            <input className='ogInput' type='text' onChange={props.handleOnChange} name='searchText' placeholder='Find' />
             </div>
             <SearchLocationInput />
-            <button>
+            <button onClick={props.submitSearchBar}>
                 <svg width="25px" height="30px" viewBox="0 0 37 35" version="1.1" xmlns="http://www.w3.org/2000/svg">
                     <title>Group 4</title>
                     <desc>Created with Sketch.</desc>
@@ -102,11 +102,35 @@ export default class SearchResults extends React.Component {
         }
     }
 
+    submitSearchBar = (e) => {
+        e.preventDefault();
+        var location = document.querySelector('.searchLocation').value;
+        var locationAndSearch =  this.state.searchText + ' in ' + location;
+        // format our location and string search
+        location = location.split(', ').join('+');
+        var stringQuery = this.state.searchText.trim().split(' ').join('+');
+        var searchStr = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${stringQuery}+${location}&key=${process.env.REACT_APP_GOOGLE_API}`;
+        if(location && stringQuery) {
+            localStorage.removeItem('homepageSearch');
+            localStorage.removeItem('searchString');
+            localStorage.setItem('homepageSearch', searchStr);
+            localStorage.setItem('searchString', locationAndSearch);
+            localStorage.setItem('location', location);
+            window.location = '/searchresults';
+        }
+    }
+
+    handleOnChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+
     render() {
         return(
             <div>
                 <div className='searchResultsContainer'>                    
-                    <div>
+                    <a href='/'>
                         <svg width="245px" height="251px" viewBox="0 0 245 251" version="1.1" xmlns="http://www.w3.org/2000/svg">
                         <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
                         <g id="Desktop" transform="translate(-389.000000, -73.000000)">
@@ -122,10 +146,10 @@ export default class SearchResults extends React.Component {
                         </g>
                         </g>
                         </svg>
-                    </div>
+                    </a>
                         <SearchBar 
-                        //submitSearchBar={this.submitSearchBar}
-                        //handleOnChange={this.handleOnChange}
+                        submitSearchBar={this.submitSearchBar}
+                        handleOnChange={this.handleOnChange}
                         >
                         <SearchLocationInput />
                         </SearchBar>
@@ -137,7 +161,8 @@ export default class SearchResults extends React.Component {
                     />
                     <div class='mapContainer'>
                     <MapContainer
-                    location={this.state.searchResults[0]} 
+                    location={this.state.searchResults[0]}
+                    searchResults={this.state.searchResults} 
                     />
                     </div>
                 </div>

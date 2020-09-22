@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Map, GoogleApiWrapper } from 'google-maps-react';
+import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
 import {MyApiClient} from './my-api-client.js';
 const mapStyles = {
     width: '60%',
@@ -10,23 +10,43 @@ export class MapContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            location: {}
+            location: {},
+            activeMarker: {},
+            selectedPlace: {},
+            showingInfoWindow: false,
+            selectedItem: null,
+            zoom: 15
         }
     }
 
-    componentDidMount() {
-        // if(localStorage.location) {
-        //     MyApiClient
-        //         .post('/location', {location: localStorage.location})
-        //         .then((response) => {
-        //             this.setState({
-        //                 location: response.data[0].geometry.location
-        //             })
-        //         })
-        // }
-    }
+    onMarkerClick = (props, marker, item) =>
+    this.setState({
+      activeMarker: marker,
+      selectedPlace: props,
+      showingInfoWindow: true,
+      selectedItem: item
+    });
+
+  onInfoWindowClose = () =>
+    this.setState({
+      activeMarker: null,
+      showingInfoWindow: false,
+      selectedItem: null
+    });
+
+    onMapClicked = () => {
+        if (this.state.showingInfoWindow)
+          this.setState({
+            activeMarker: null,
+            showingInfoWindow: false,
+            selectedItem: null,
+          });
+      };
+
 
     render() {
+        console.log(this.state.selectedItem)
+        if(!this.props.searchResults || !this.props.location) return <div>Loading ... </div>
         return(
         <div>{this.props.location ? 
             <Map
@@ -39,8 +59,53 @@ export class MapContainer extends Component {
                     lng: this.props.location.geometry.location.lng
                 }
             }
-          /> : ''
-        }</div>
+            onClick={this.onMapClicked}
+          >
+        {this.props.searchResults.map((item, index) => {
+        return <Marker 
+            key={index}
+            id={index}
+            position={{
+                lat: item.geometry.location.lat,
+                lng: item.geometry.location.lng
+            }}
+            onClick={(props, marker) => {
+                this.setState({
+                    activeMarker: marker,
+                    selectedPlace: props,
+                    showingInfoWindow: true,
+                    selectedItem: item
+                })
+            }}
+            >
+            </Marker>
+        })}
+            <InfoWindow
+            marker={this.state.activeMarker}
+            onClose={this.onInfoWindowClose}
+            visible={this.state.showingInfoWindow}
+            >
+            {this.state.selectedItem ? 
+            <div>
+            <h2>{this.state.selectedItem.name}</h2>
+            {(() => {
+                if(this.state.selectedItem.opening_hours) {
+                    if(this.state.selectedItem.opening_hours.open_now !== undefined) {
+                    if(this.state.selectedItem.opening_hours.open_now) {
+                        return <p style={{color: "green", fontWeight: "450"}}>Open</p>;
+                    } else {
+                        return <p style={{color: "red", fontWeight: "450"}}>Closed</p>;
+                    }
+                }
+                }
+            })()}
+            <h4 style={{color: "orange"}}>Rating: {this.state.selectedItem.rating}</h4>
+            </div> : 
+            <div></div>
+            }
+            </InfoWindow>
+          </Map> : ''}
+          </div>
         )
     }
 }
