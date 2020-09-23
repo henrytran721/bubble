@@ -1,9 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
 .searchResultsContainer {
     background: linear-gradient(-60deg, #000B97, #3E005F);
     display: flex;
     align-items: center;
     justify-content: space-around;
     padding: 1% 0;
+    
+    @media (min-width: 320px) and (max-width: 480px) {
+        display: block;
+    }
 }
 
 
@@ -25,6 +30,10 @@
         &:hover {
             box-shadow: 0 10px 10px rgba(0,0,0,0.15);
         }
+        @media(min-width: 320px) and (max-width: 480px) {
+            display: block;
+            padding: 0;
+        }
         img {
             max-width: 300px;
             max-height: 300px;
@@ -32,6 +41,9 @@
             -webkit-border-radius: 10px;
             -moz-border-radius: 10px;
             border-radius: 10px;
+            @media(min-width: 320px) and (max-width: 480px) {
+               max-width: 150px;
+            }
         }
 
         .searchInfo {
@@ -40,12 +52,22 @@
             align-items: flex-start;
             padding: 0 2%;
             text-align: left;
+
+            h3 {
+                font-family: 'Playfair Display', serif;
+            }
         }
     }
 }
 
 .searchRText {
     text-align: left;
+    color: #000B97;
+    font-family: 'Playfair Display', serif;
+    @media(min-width: 320px) and (max-width: 480px) {
+        text-align: center;
+        font-size: 1em;
+    }
 }
 
 .searchBoxDiv {
@@ -71,4 +93,7 @@
     // width: 60%;
     // height: 50%;
     width: 60%;
+    @media (min-width: 320px) and (max-width: 480px) {
+        display: none;
+    }
 }

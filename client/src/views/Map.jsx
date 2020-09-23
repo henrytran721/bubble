@@ -3,7 +3,7 @@ import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
 import {MyApiClient} from './my-api-client.js';
 const mapStyles = {
     width: '60%',
-    height: '40%',
+    height: '100%',
 };
 
 export class MapContainer extends Component {
@@ -61,7 +61,7 @@ export class MapContainer extends Component {
             }
             onClick={this.onMapClicked}
           >
-        {this.props.searchResults.map((item, index) => {
+        {this.props.searchResults.slice(0,10).map((item, index) => {
         return <Marker 
             key={index}
             id={index}

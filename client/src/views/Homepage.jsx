@@ -76,6 +76,22 @@ export default class Homepage extends React.Component {
                         })
                 }
             }
+        } else {
+            MyApiClient
+                .post('/nouser')
+                .then((res) => {
+                    var places = res.data;
+                    places.sort((a, b) => {
+                        return b.rating - a.rating;
+                    })
+                    var placesArr = [];
+                    for(let i = 0; i < 3; i++) {
+                        placesArr.push(places[i]);
+                    }
+                    this.setState({
+                        places: placesArr,
+                    })
+                })
         }
     }
 
@@ -117,7 +133,6 @@ export default class Homepage extends React.Component {
     }
 
     render() {
-        console.log(this.state.searchText);
         return (
             <div>
             <div className='homepageContainer'>
@@ -158,7 +173,7 @@ export default class Homepage extends React.Component {
                 </g>
             </svg>
             <div className='popularDiv'>
-            <h2 className='popularText'>Most Popular Restaurants In Your Area</h2>
+           {localStorage.user ? <h2 className='popularText'>Most Popular Restaurants In Your Area</h2> : <h2 className='popularText'>Most Popular Restaurants In Los Angeles, CA</h2>}
             <div className='recommendedBoxes'>
                 {this.state.places.map((place) => {
                     var photoRef = place.photos[0].photo_reference;

@@ -37,7 +37,7 @@ function SearchBox(props) {
     return(
         <div className='searchBoxDiv'>
             <h1 class='searchRText'>Search Results for '{props.locationAndSearch}'</h1>
-            {props.searchResults.map((res) => {
+            {props.searchResults.slice(0,10).map((res) => {
                 var photoRef;
                 try {
                     if(res.photos[0] !== undefined) {
@@ -50,7 +50,7 @@ function SearchBox(props) {
                     <div className='searchBox' key={res.id}>
                     {res.photos !== undefined ? <img src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoRef}&key=${process.env.REACT_APP_GOOGLE_API}`} /> : <img src='https://lh3.googleusercontent.com/proxy/Mh1jHJMiGZChykY-K8IMMUXiI4P2sHq3ltal001IL11-3s8xysRALJmnAoJc4NBN1SOQbZWaNW8CGrW2Zur6PljS42RgBsE3S49eTBvsVk3R1DI_URrrATsrxdjlqkFam9mbMz1zbQ' />}
                     <div className='searchInfo'>
-                    <h1>{res.name}</h1>
+                    <h3>{res.name}</h3>
                     {
                         (() => {
                             if(res.opening_hours) {
@@ -155,10 +155,11 @@ export default class SearchResults extends React.Component {
                         </SearchBar>
                 </div>
                 <div class='searchResultsBody'>
+                    {!this.state.searchResults ? <div>Loading ... </div> : 
                     <SearchBox 
                     locationAndSearch={this.state.locationAndSearch}
                     searchResults = {this.state.searchResults}
-                    />
+                    />}
                     <div class='mapContainer'>
                     <MapContainer
                     location={this.state.searchResults[0]}

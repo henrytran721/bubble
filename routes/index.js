@@ -36,4 +36,18 @@ router.post('/searchQuery', (req, response, next) => {
   })
 })
 
+router.post('/nouser', (req, response, next) => {
+  var url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=restaurants+in+Los+Angeles+CA&key=${process.env.GOOGLE_API}`;
+  https.get(url, (res) => {
+    var body = '';
+    res.on('data', function(chunk) {
+      body += chunk;
+    })
+    res.on('end', () => {
+      var searchResults = JSON.parse(body);
+      response.send(searchResults.results);
+    })
+  })
+})
+
 module.exports = router;

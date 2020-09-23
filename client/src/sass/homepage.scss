@@ -24,6 +24,10 @@ $roboto: 'Roboto', sans-serif;
     display: flex;
     justify-content: center;
 
+    @media(min-width: 320px) and (max-width: 480px) {
+        display: block;
+    }
+
     .ogInput {
         border: none;
         padding: 3%;
@@ -31,6 +35,10 @@ $roboto: 'Roboto', sans-serif;
         border-radius: 5px 0 0 5px;
         font-family: $roboto;
         font-size: 1em;
+        @media(min-width: 320px) and (max-width: 480px) {
+            padding: 1%;
+            border-radius: 5px;
+        }
         &:focus {
             outline: none;
         }
@@ -57,17 +65,30 @@ $roboto: 'Roboto', sans-serif;
         border-radius: 0 5px 5px 0;
         padding: 0 2%;
         cursor: pointer;
+        @media(min-width: 320px) and (max-width: 480px) {
+            border-radius: 5px;
+            width: 50%;
+        }
     }
 }
 
 .search-location-input {
     margin-left: 3%;
+    @media(min-width: 320px) and (max-width: 480px) {
+        margin-left: 0;
+    }
     input {
         height: 95%;
         border: none;
         width: 250px;
         font-family: $roboto;
         font-size: 1em;
+        @media(min-width: 320px) and (max-width: 480px) {
+            width: 93%;
+            padding: 1%;
+            border-radius: 5px;
+            margin: 2% 0;
+        }
     &:focus {
         outline: none;
     }
@@ -99,17 +120,29 @@ html, body {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    @media(min-width: 320px) and (max-width: 480px) {
+        display: block;
+        margin: 0 3%;
+        position: relative;
+        height: 100vh;
+    }
     .rBox {
         width: 350px;
-        height: 50%;
+        padding: 2% 0;
         background: white;
         border-radius: 10px;
         box-shadow: 2px 2px 4px 0 darken(#ccc, 20%);
-
+        @media(min-width: 320px) and (max-width: 480px) {
+            margin: 5% 0;
+            height: 30%;
+        }
         h2 {
             font-family: $roboto;
             text-align: left;
             margin: 2% 5%;
+            @media(min-width: 320px) and (max-width: 480px) {
+                font-size: 1em;
+            }
         }
 
         img {
@@ -117,6 +150,9 @@ html, body {
             max-height: 200px;
             margin: 5%;
             box-shadow: 2px 2px 4px 0 #000;
+            @media(min-width: 320px) and (max-width: 480px) {
+                max-height: 50%;
+            }
         }
     }
 }
