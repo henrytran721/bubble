@@ -60,7 +60,8 @@ passport.serializeUser(function(user, done) {
 
 
 app.use(cors({
-    origin: "http://localhost:3000",
+    // origin: "http://localhost:3000",
+    origin: "http://54.153.93.78",
     credentials: true,
 }));
 app.use(bodyParser.json());
