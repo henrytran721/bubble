@@ -1,6 +1,6 @@
 import React from 'react';
 import {MyApiClient} from './my-api-client.js';
-
+import '../sass/login.scss';
 export default class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -44,13 +44,15 @@ export default class Login extends React.Component {
 
     render() {
         return(
-            <div>
+            <div className='loginContainer'>
+                <div className='login'>
                 <h1>Login</h1>
                 <form name='signup' method='POST'>
                 <input onChange={this.handleOnChange} type='text' name='username' placeholder='Email' />
                 <input onChange={this.handleOnChange} type='password' name='password'  placeholder='Password' />
                 <button onClick={this.handleSubmit}>Submit</button>
                 </form>
+                </div>
             </div>
         )
     }

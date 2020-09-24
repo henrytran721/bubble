@@ -45,7 +45,6 @@ export class MapContainer extends Component {
 
 
     render() {
-        console.log(this.state.selectedItem)
         if(!this.props.searchResults || !this.props.location) return <div>Loading ... </div>
         return(
         <div>{this.props.location ? 

@@ -70,6 +70,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', indexRouter);
 app.use('/signup', signupRouter);
+app.use(express.static(path.join(__dirname, "client/build")))
 
 app.post('/login', passport.authenticate('local'), (req, res, next) => {
     // call req.login for callback is needed in order to call serialize and deserialize functions
