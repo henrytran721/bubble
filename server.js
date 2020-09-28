@@ -60,7 +60,7 @@ passport.serializeUser(function(user, done) {
 
 
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: "https://bubble-henri-app.herokuapp.com/",
     credentials: true,
 }));
 app.use(bodyParser.json());
