@@ -63,6 +63,13 @@ app.use(cors({
     origin: "https://bubble-henri-app.herokuapp.com/",
     credentials: true,
 }));
+if (process.env.NODE_ENV === 'production') {
+    app.use('/', express.static(path.join(__dirname, '/client/build')));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, '/client/build', 'index.html')); // relative path
+    });
+}
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({ secret: "dole-whip", resave: false, saveUninitialized: true}));
@@ -70,14 +77,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', indexRouter);
 app.use('/signup', signupRouter);
-
-if (process.env.NODE_ENV === 'production') {
-    app.use('/', express.static(path.join(__dirname, 'client', 'build')));
-
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, 'client', 'build', 'index.html')); // relative path
-    });
-}
 
 app.post('/login', passport.authenticate('local'), (req, res, next) => {
     // call req.login for callback is needed in order to call serialize and deserialize functions
