@@ -90,6 +90,48 @@ app.post('/logout', (req, res, next) => {
     res.send({redirect});
 })
 
+app.post('/', function(req, response, next) {
+    var url = req.body.url;
+    https.get(url, (res) => {
+      var body = '';
+      res.on('data', function(chunk) {
+        body += chunk;
+      })
+      res.on('end', () => {
+        var places = JSON.parse(body);
+        response.send(places.results);
+      })
+    })
+  });
+
+// homepage search bar
+app.post('/searchQuery', (req, response, next) => {
+  var url = req.body.url;
+  https.get(url, (res) => {
+    var body = '';
+    res.on('data', function(chunk) {
+      body += chunk;
+    })
+    res.on('end', () => {
+      var searchResults = JSON.parse(body);
+      response.send(searchResults.results);
+    })
+  })
+})
+
+app.post('/nouser', (req, response, next) => {
+  var url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=restaurants+in+Los+Angeles+CA&key=${process.env.GOOGLE_API}`;
+  https.get(url, (res) => {
+    var body = '';
+    res.on('data', function(chunk) {
+      body += chunk;
+    })
+    res.on('end', () => {
+      var searchResults = JSON.parse(body);
+      response.send(searchResults.results);
+    })
+  })
+})
 
 app.listen(`${process.env.PORT}` || 8080, () => {
     console.log('app is running on port 8080');
