@@ -60,8 +60,7 @@ passport.serializeUser(function(user, done) {
 
 
 app.use(cors({
-    // origin: "http://localhost:3000",
-    origin: "http://54.153.93.78",
+    origin: "http://localhost:3000",
     credentials: true,
 }));
 app.use(bodyParser.json());
@@ -71,7 +70,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', indexRouter);
 app.use('/signup', signupRouter);
-app.use(express.static(path.join(__dirname, "client/build")))
+
+if(process.env.NODE_ENV === 'production') {
+    app.use(express.static("client/build"));
+}
 
 app.post('/login', passport.authenticate('local'), (req, res, next) => {
     // call req.login for callback is needed in order to call serialize and deserialize functions
