@@ -176,12 +176,18 @@ export default class Homepage extends React.Component {
            {localStorage.user ? <h2 className='popularText'>Most Popular Restaurants In Your Area</h2> : <h2 className='popularText'>Most Popular Restaurants In Los Angeles, CA</h2>}
             <div className='recommendedBoxes'>
                 {this.state.places.map((place) => {
-                    var photoRef = place.photos[0].photo_reference;
+                    var photoRef;
+                    if(place.photos) {
+                       photoRef = place.photos[0].photo_reference;
+                    } else {
+                        photoRef = '';
+                    }
                     var rating = (place.rating / 5) * 100;
                     rating = rating + '%';
                     return (
                         <div className='rBox' key={place.name}>
-                            <img src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoRef}&key=${process.env.REACT_APP_GOOGLE_API}`} />
+                            {photoRef !== '' ? <img src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoRef}&key=${process.env.REACT_APP_GOOGLE_API}`} /> : 
+                            <img src='https://smalltalkmedia.com/wp-content/uploads/2014/07/Toms_Restaurant_Manhattan.jpg' />}
                             <h2>{place.name}</h2>
                             <div className='rating'>
                                 <div className="star-ratings-css">
